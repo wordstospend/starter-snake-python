@@ -16,7 +16,7 @@ This is a basic implementation of the [Battlesnake API](https://docs.battlesnake
 
 ## Running Your Battlesnake on [Repl.it](https://repl.it)
 
-[![Run on Repl.it](https://repl.it/badge/github/BattlesnakeOfficial/starter-snake-python)](https://repl.it/github/BattlesnakeOfficial/starter-snake-python)
+[![Run on Repl.it](https://repl.it/badge/github/wordstospend/starter-snake-python)](https://repl.it/github/wordstospend/starter-snake-python)
 
 1. Login to your [Repl.it](https://repl.it) account.
 
