@@ -2,6 +2,7 @@ import os
 import random
 
 import cherrypy
+import safety
 
 """
 This is a simple Battlesnake server written in Python.
@@ -18,7 +19,7 @@ class Battlesnake(object):
         # TIP: If you open your Battlesnake URL in browser you should see this data
         return {
             "apiversion": "1",
-            "author": "",  # TODO: Your Battlesnake Username
+            "author": "wordstospend",
             "color": "#888888",  # TODO: Personalize
             "head": "default",  # TODO: Personalize
             "tail": "default",  # TODO: Personalize
@@ -44,8 +45,7 @@ class Battlesnake(object):
         data = cherrypy.request.json
 
         # Choose a random direction to move in
-        possible_moves = ["up", "down", "left", "right"]
-        move = random.choice(possible_moves)
+        move = random.choice(safety.safeMoves(data['you']['head'], data['board'])
 
         print(f"MOVE: {move}")
         return {"move": move}
