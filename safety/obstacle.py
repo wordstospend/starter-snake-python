@@ -1,27 +1,28 @@
 
-from typing import TypedDict
-class LocationType(TypeDict):
+from typing import TypedDict, List
+class LocationType(TypedDict):
     x: int
     y: int
 
-class SnakeType(TypeDict):
+class SnakeType(TypedDict):
     id: str
     name: str
     health: int
-    body: list[LocationType]
+    body: List[LocationType]
     latency: str
     head: LocationType
     length: int
     shout: str
     squad: str
 
-class BoardType(TypeDict):
+class BoardType(TypedDict):
     height: int
     width: int
-    food: list[LocationType]
-    hazards: list[LocationType]
-    snakes: list[SnakeType]
+    food: List[LocationType]
+    hazards: List[LocationType]
+    snakes: List[SnakeType]
 
+obsticleString = "just some value"
 def wall(location: LocationType, board: BoardType) -> bool:
     """returns true if the location passed is safe from walls"""
     if location['x'] < 0 or location['x'] >= board['width']:
@@ -38,7 +39,9 @@ def snake(location: LocationType, snake: SnakeType, growing: bool) -> bool:
     startIndex = 1
     if growing:
         startIndex = 0
-    for _, place  in enumerate(snake['body'].reverse(), start=startIndex):
+    rbody = snake['body']
+    rbody.reverse()
+    for _, place  in enumerate(rbody, start=startIndex):
         if place['x'] == location['x'] and place['y'] == location['y']:
             return False
 
@@ -47,17 +50,17 @@ def snake(location: LocationType, snake: SnakeType, growing: bool) -> bool:
 
 def hazards(location: LocationType, board: BoardType) -> bool:
     """return tre if moving to the location passed is safe from all hazards on the board"""
-    for place in baord['hazards']:
+    for place in board['hazards']:
         if place['x'] == location['x'] and place['y'] == location['y']:
             return False
 
     return True
 
-def safeMoves(location: LocationType, board: BoardType) -> list[str]:
+def safeMoves(location: LocationType, board: BoardType) -> List[str]:
     moves = {
         "up": {'x': location['x'], 'y': location['y']+1},
         "down": {'x': location['x'], 'y': location['y']-1},
         "left": {'x': location['x'] -1, 'y': location['y']},
-        "right": {'x': location['x'] -1, 'y': location['y']}
+        "right": {'x': location['x'] +1, 'y': location['y']}
     }
-    return [direction for (direction, place) in moves.items() if hazards(place, board) if wall(place, board) if all(snake(place, snake) for snake in board['snakes'])
+    return [direction for (direction, place) in moves.items() if hazards(place, board) if wall(place, board) if all(snake(place, worm, False) for worm in board['snakes'])]

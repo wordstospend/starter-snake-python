@@ -2,7 +2,7 @@ import os
 import random
 
 import cherrypy
-import safety
+from safety import obstacle
 
 """
 This is a simple Battlesnake server written in Python.
@@ -45,7 +45,9 @@ class Battlesnake(object):
         data = cherrypy.request.json
 
         # Choose a random direction to move in
-        move = random.choice(safety.safeMoves(data['you']['head'], data['board'])
+        moves = obstacle.safeMoves(data['you']['head'], data['board'])
+        print(f"MOVES: {moves}")
+        move = random.choice(moves)
 
         print(f"MOVE: {move}")
         return {"move": move}
@@ -67,5 +69,6 @@ if __name__ == "__main__":
     cherrypy.config.update(
         {"server.socket_port": int(os.environ.get("PORT", "8080")),}
     )
+
     print("Starting Battlesnake Server...")
     cherrypy.quickstart(server)
